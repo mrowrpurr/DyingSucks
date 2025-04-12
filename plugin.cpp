@@ -4,11 +4,16 @@ namespace MyHooks {
     using func_t     = void (*)(RE::Actor*, RE::Actor*, float, bool, bool);
     func_t _original = nullptr;
 
-    void Hooked_KillImpl(RE::Actor* a_this, RE::Actor* a_attacker, float a_damage, bool a_sendEvent, bool a_ragdollInstant) {
-        Log("KillImpl hook: {} killed by {} for {} dmg (event: {}, ragdoll: {})", a_this->GetName(), a_attacker ? a_attacker->GetName() : "Unknown", a_damage, a_sendEvent,
+    void Hooked_KillImpl(RE::Actor* killedActor, RE::Actor* a_attacker, float a_damage, bool a_sendEvent, bool a_ragdollInstant) {
+        Log("KillImpl hook: {} killed by {} for {} dmg (event: {}, ragdoll: {})", killedActor->GetName(), a_attacker ? a_attacker->GetName() : "Unknown", a_damage, a_sendEvent,
             a_ragdollInstant);
 
-        _original(a_this, a_attacker, a_damage, a_sendEvent, a_ragdollInstant);
+        if (killedActor->IsPlayerRef()) {
+            Log("HAHAHAHAH you CAN'T KILL meeee!!!");
+            return;
+        }
+
+        _original(killedActor, a_attacker, a_damage, a_sendEvent, a_ragdollInstant);
     }
 
     void Install() {
