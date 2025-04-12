@@ -1,5 +1,7 @@
 #include <SkyrimScripting/Plugin.h>
 
+#include "Actor.h"
+
 namespace MyHooks {
     using func_t     = void (*)(RE::Actor*, RE::Actor*, float, bool, bool);
     func_t _original = nullptr;
@@ -44,4 +46,11 @@ namespace MyHooks {
     }
 }
 
-SKSEPlugin_Entrypoint { MyHooks::Install(); }
+SKSEPlugin_Entrypoint {
+    auto& trampoline = SKSE::GetTrampoline();
+    trampoline.create(256);
+
+    MyHooks::Install();
+
+    ActorEx::Install(trampoline);
+}

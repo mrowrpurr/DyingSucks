@@ -29,6 +29,6 @@ skse_plugin({
     author = "Mrowr Purr",
     email = "mrowr.purr@gmail.com",
     packages = {"SkyrimScripting.Plugin"},
-    src = {"plugin.cpp", "src/*.cpp"},
-    include = {"include"}
+    src = {"plugin.cpp", "from_experience/*.cpp"},
+    include = {"from_experience"}
 })
